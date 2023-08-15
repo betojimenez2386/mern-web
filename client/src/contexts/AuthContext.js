@@ -12,11 +12,12 @@ export function AuthProvider(props) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+
   /*eslint-disable */
   useEffect(() => {
     (async () => {
       const accesToken = authController.getAccessToken();
-      const refreshToken = authController.getRefreshToken();
+      const refreshToken = authController.getAccessToken();
 
       if (!accesToken || !refreshToken) {
         logout();

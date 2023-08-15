@@ -88,7 +88,7 @@ export class Auth {
   }
 
   getRefreshToken() {
-    localStorage.setItem(ENV.JWT.REFRESH);
+    return localStorage.getItem(ENV.JWT.REFRESH);
   }
 
   removeTokens() {

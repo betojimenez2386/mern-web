@@ -1,9 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
+import { Tab, Button } from "semantic-ui-react";
+import { BasicModal } from "../../../Components/Shared";
+import { UserForm } from "../../../Components/Admin/Users";
+import "./Users.scss";
 
 export function Users() {
+  const [showModal, setShowModal] = useState(false);
+
+  const onOpenCloseModal = () => setShowModal((prevState) => !prevState);
+
+  const panes = [
+    {
+      menuItem: "Usuarios activos",
+      render: () => (
+        <Tab.Pane attached={false}>
+          <h2>Usuarios activos</h2>
+        </Tab.Pane>
+      ),
+    },
+
+    {
+      menuItem: "Usuarios inactivos",
+      render: () => (
+        <Tab.Pane attached={false}>
+          <h2>Usuarios inactivos</h2>
+        </Tab.Pane>
+      ),
+    },
+  ];
   return (
-    <div>
-      <h1>Estamos en users</h1>
-    </div>
+    <>
+      <div className="users-page">
+        <Button className="users-page__add" primary onClick={onOpenCloseModal}>
+          Nuevo usuario
+        </Button>
+        <Tab menu={{ secondary: true }} panes={panes} />
+      </div>
+      <BasicModal
+        show={showModal}
+        close={onOpenCloseModal}
+        title="crear nuevo usuario"
+      >
+        <UserForm close={onOpenCloseModal} />
+      </BasicModal>
+    </>
   );
 }

@@ -9,6 +9,7 @@ const authController = new Auth();
 
 export function LoginForm() {
   const { login } = useAuth();
+
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),
