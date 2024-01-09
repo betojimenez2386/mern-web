@@ -17,7 +17,7 @@ export function AuthProvider(props) {
   useEffect(() => {
     (async () => {
       const accesToken = authController.getAccessToken();
-      const refreshToken = authController.getAccessToken();
+      const refreshToken = authController.getRefreshToken();
 
       if (!accesToken || !refreshToken) {
         logout();

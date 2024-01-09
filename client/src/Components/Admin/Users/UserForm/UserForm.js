@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import { User } from "../../../../api";
 import { useAuth } from "../../../../hooks";
 import { image } from "../../../../assets";
+import { ENV } from "../../../../utils";
 import { initialValues, validationSchema } from "./UserForm.form";
 import "./UseForm.scss";
 
@@ -12,17 +13,22 @@ const userController = new User();
 
 export function UserForm(props) {
   const { close, onReload, user } = props;
-  const { accessToken } = useAuth();
+  const { accesToken } = useAuth(); // checar AuthContext.js viene con una sola s el accesToken
 
   const formik = useFormik({
-    initialValues: initialValues(),
-    validationSchema: validationSchema(),
+    initialValues: initialValues(user),
+    validationSchema: validationSchema(user),
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
-        await userController.createUser(accessToken, formValue);
+        if (!user) {
+          await userController.createUser(accesToken, formValue);
+        } else {
+          await userController.updateUser(accesToken, user._id, formValue);
+        }
 
-        //close();
+        onReload();
+        close();
       } catch (error) {
         console.error(error);
       }
@@ -43,6 +49,8 @@ export function UserForm(props) {
   const getAvatar = () => {
     if (formik.values.fileAvatar) {
       return formik.values.avatar;
+    } else if (formik.values.avatar) {
+      return `${ENV.BASE_PATH}/${formik.values.avatar} `;
     }
     return image.noAvatar;
   };

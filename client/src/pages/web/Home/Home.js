@@ -1,9 +1,17 @@
 import React from "react";
-
+import {
+  Banner,
+  HomeCourses,
+  HowMyCoursesWork,
+  Reviews,
+} from "../../../Components/Web";
 export function Home() {
   return (
     <div>
-      <h1>Estamos en el HOME de la web</h1>
+      <Banner />
+      <HomeCourses />
+      <HowMyCoursesWork />
+      <Reviews />
     </div>
   );
 }

@@ -1,9 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import { Tab, Button } from "semantic-ui-react";
+import { ListPost, PostForm } from "../../../Components/Admin/Post";
+import { BasicModal } from "../../../Components/Shared";
+import "./Blog.scss";
 
 export function Blog() {
+  const [showModal, setShowModal] = useState(false);
+  const [reload, setReload] = useState(false);
+
+  const onOpenCloseModal = () => setShowModal((prevState) => !prevState);
+  const onReload = () => setReload((prevState) => !prevState);
+
+  const panes = [
+    {
+      render: () => (
+        <Tab.Pane attached={false}>
+          <ListPost reload={reload} onReload={onReload} />
+        </Tab.Pane>
+      ),
+    },
+  ];
   return (
-    <div>
-      <h1>Estamos en el Blog</h1>
-    </div>
+    <>
+      <div className="blog-page">
+        <div className="blog-page__add">
+          <Button primary onClick={onOpenCloseModal}>
+            Nuevo Post
+          </Button>
+        </div>
+
+        <Tab menu={{ secondary: true }} panes={panes} />
+      </div>
+      <BasicModal
+        show={showModal}
+        close={onOpenCloseModal}
+        title="Crear nuevo post"
+        size="large"
+      >
+        <PostForm onClose={onOpenCloseModal} onReload={onReload} />
+      </BasicModal>
+    </>
   );
 }
